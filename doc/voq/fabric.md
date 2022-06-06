@@ -34,6 +34,10 @@
 | 3.1 | Mar-30 2023 | Jie Feng (Arista Networks) | Update Overview, SAI API and Configuration and management section |
 | 3.2 | May-01 2023 | Jie Feng (Arista Networks) | Update Counter tables information |
 
+# About this Manual
+
+This document provides an overview of the SONiC support for fabric ports that are present in a VOQ-based chassis. These fabric ports are used to interconnect the forwarding Network Processing Units within the VOQ chassis.
+
 # Scope
 
 This document covers:
@@ -208,17 +212,17 @@ The design of fabric link monitor is intentionally scoped to use local component
 
 Unhealthy fabric links may lead to traffic drops. Fabric link monitoring is an important tool to minimize traffic loss. The fabric link monitor algorithm monitors fabric link status and isolates the link if one or more criteria are true. By isolating a fabric link, the link is still up in the physical layer, but is taken out of service and does not distribute traffic. This feature is needed on both fabric ASICs and forwarding ASICs.  
 
-#### 2.8.1.1 Fabric link monitoring criteria
-
-The fabric link monitoring algorithm checks two type of errors on a link: crc errors and uncorrectable errors. 
-
-The criteria can be extended to include checking other errors later.
-
-#### 2.8.1.2 Monitoring algorithm
-
-Instead of reacting to the counter changes, Orchagent adds a new poller and periodically polls status of all fabric links. By default, the total number of received cells, cells with crc errors, cells with uncorrectable errors are fetched from all serdes links periodically and the error rates are calculated using these numbers. If any one of the error rates is above the threshold for a number of consecutive polls, the link is identified as an unhealthy link. Then the link is automatically isolated to not distribute traffic.
-
 #### 2.8.1.1 Cli commands
+
+```
+> config fabric port set [port_id] isolate
+```
+
+```
+> config fabric port remove [port_id] isolate
+```
+
+The above two commands are added and can be used to manually isolate and unisolate a fabric link ( i.e. take the link out of service and put the link back into service ).
 
 Several commands will be added to set fabric link monitor config parameters.
 ```
@@ -251,6 +255,15 @@ The above command sets the number of consecutive polls in which no error is dete
 
 Besides the fabric link monitoring algorithm, the above two commands are added. The commands can be used to manually isolate and unisolate a fabric link ( i.e. take the link out of service and put the link back into service ). The two commands can help us debug on the system as well as force isolate a fabric link. 
 
+#### 2.8.1.2 Fabric link monitoring criteria
+
+The fabric link monitoring algorithm checks two type of errors on a link: crc errors and uncorrectable errors.
+
+The criteria can be extended to include checking other errors later.
+
+#### 2.8.1.3 Monitoring algorithm
+
+Instead of reacting to the counter changes, Orchagent adds a new poller and periodically polls status of all fabric links. By default, the total number of received cells, cells with crc errors, cells with uncorrectable errors are fetched from all serdes links periodically and the error rates are calculated using these numbers. If any one of the error rates is above the threshold for a number of consecutive polls, the link is identified as an unhealthy link. Then the link is automatically isolated to not distribute traffic.
 
 ### 2.8.2 Monitor Fabric Capacity
 
@@ -269,11 +282,11 @@ A show command is added to display the fabric capacity on a system.
 > show fabric monitor capacity
 Monitored fabric capacity threshold: 90%
 
-ASIC     Operating   Total #      %       Last Event   Last Time  
+ASIC     Operating   Total #      %       Last Event   Last Time
          Links       of Links
 -----    ------      --------     ----    ----------   ---------
 0        110         112          98      None          Never
-1        112         112          100     None          Never  
+1        112         112          100     None          Never
 ....
 ```
 
