@@ -210,7 +210,7 @@ The design of fabric link monitor is intentionally scoped to use local component
 
 ### 2.8.1 Monitor Fabric Link Status
 
-Unhealthy fabric links may lead to traffic drops. Fabric link monitoring is an important tool to minimize traffic loss. The fabric link monitor algorithm monitors fabric link status and isolates the link if one or more criteria are true. By isolating a fabric link, the link is still up in the physical layer, but is taken out of service and does not distribute traffic. This feature is needed on both fabric ASICs and forwarding ASICs.  
+Unhealthy fabric links may lead to traffic drops. Fabric link monitoring is an important tool to minimize traffic loss. The fabric link monitor algorithm monitors fabric link status and isolates the link if one or more criteria are true. By isolating a fabric link, the link is still up in the physical layer, but is taken out of service and does not distribute traffic. This feature is needed on both fabric ASICs and forwarding ASICs.
 
 #### 2.8.1.1 Cli commands
 
