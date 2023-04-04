@@ -459,6 +459,18 @@ Command to display fabric counters queue.
 > show fabric counters queue
 ```
 
+Command to clear fabric counters port.
+
+```
+sonic-clear fabriccountersport
+```
+
+Command to clear fabric counters queue.
+
+```
+sonic-clear fabriccountersqueue
+```
+
 Command to display fabric status.
 
 ```
